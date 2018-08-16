@@ -1,4 +1,6 @@
 class OccurrencesController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :set_occurrence, only: [:show, :edit, :update, :destroy]
 
   # GET /occurrences
