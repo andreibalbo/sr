@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2018-08-16
+  location: MyString
+  description: MyString
+  stars: 1
+
+two:
+  date: 2018-08-16
+  location: MyString
+  description: MyString
+  stars: 1

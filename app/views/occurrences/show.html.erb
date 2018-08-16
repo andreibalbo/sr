@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @occurrence.date %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @occurrence.location %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @occurrence.description %>
+</p>
+
+<p>
+  <strong>Stars:</strong>
+  <%= @occurrence.stars %>
+</p>
+
+<%= link_to 'Edit', edit_occurrence_path(@occurrence) %> |
+<%= link_to 'Back', occurrences_path %>

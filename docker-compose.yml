@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    container_name: sr-db
+    image: postgres
+  web:
+    container_name: sr-app
+    build: .
+    command: bash -c "while [ true ]; do sleep 10; done"
+    volumes:
+      - .:/sr
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  redis:
+    container_name: sr-redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
