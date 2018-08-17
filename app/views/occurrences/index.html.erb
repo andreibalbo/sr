@@ -1,34 +1,108 @@
-<p id="notice"><%= notice %></p>
-<%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+<div class="notice_div col-12">
+  <p id="notice"><%= notice %></p>
+</div>
 
-<h1>Listing Occurrences</h1>
+<div class="user_logout_wrp col-12">
+  <div class="user_logout col-12 col-md-3">
+    <span><%="Olá, #{@display_name}, "%>&nbsp</span><%= link_to("Sair", destroy_user_session_path, method: :delete) %>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Location</th>
-      <th>Description</th>
-      <th>Stars</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @occurrences.each do |occurrence| %>
+<div class="user_buttons">
+  <%= link_to 'Registrar ocorrência', new_occurrence_path %>
+</div>
+<div class="occurrence_wrapper">
+  <h3>Ocorrências: </h3>
+  <table>
+    <thead>
       <tr>
-        <td><%= occurrence.date %></td>
-        <td><%= occurrence.location %></td>
-        <td><%= occurrence.description %></td>
-        <td><%= occurrence.stars %></td>
-        <td><%= link_to 'Show', occurrence %></td>
-        <td><%= link_to 'Edit', edit_occurrence_path(occurrence) %></td>
-        <td><%= link_to 'Destroy', occurrence, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Imagem</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Localização</th>
+        <th>Data</th>
+        <th>Curtidas</th>
+        <th>Status</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @occurrences.each do |occurrence| %>
+        <tr class="occurrence_box">
+          <td class="occurrence_img">
+          </td>
+          <td class="occurrence_type sm-hidden"></td>
+          <td class="item occurrence_desc">
+            <%= occurrence.description %>
+          </td>
+          <td class="occurrence_location">
+            <%= occurrence.location %>
+          </td>
+          <td class="occurrence_date">
+            <%= occurrence.date %>
+          </td>
+          <td class="occurrence_stars">
+            <%= @star_hash[occurrence.id].present? ? @star_hash[@occurrence.id] : 0 %>
+          </td>
+          <td class="occurrence_status"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<br>
+<style type="text/css">
+  .user_logout_wrp{
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .user_buttons {
+    height: 10%;
+  }
+  .user_buttons a{
+    padding: 5px;
+    color: #fff;
+    background-color: #17a2b8;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .user_buttons a:hover{
+    background-color: #28b2c8;
+    text-decoration: none;
+  }
 
-<%= link_to 'New Occurrence', new_occurrence_path %>
+  .occurrence_wrapper {}
+
+  .occurrence_list_box {
+    padding: 0px;
+    max-height: 80%;
+    overflow-y: scroll;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+  }
+  .occurrence_box{
+    width: 100%;
+    height: 10vh;
+    border-bottom: 1px solid #17a2b8;
+  }
+
+  table {
+    width: 100%;
+    border: 1px solid #0792a8;
+  }
+
+  table tr{
+    border: 1px solid #0792a8;
+  }
+  table tr th{
+    background-color: #17a2b8;
+    border: 1px solid #0792a8;
+    color: #fff;
+    font-size: 0.9em;
+  }
+  table tr td{
+    border: 1px solid #0792a8;
+    font-size: 0.8em;
+  }
+</style>

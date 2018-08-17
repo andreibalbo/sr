@@ -6,7 +6,17 @@ class OccurrencesController < ApplicationController
   # GET /occurrences
   # GET /occurrences.json
   def index
+    @display_name = current_user.name.nil? ? current_user.email : current_user.name
     @occurrences = Occurrence.all
+    @star_hash = {}
+    to_relation = Star.all.pluck(:to)
+    to_relation.each do |r|
+      if @star_hash[r.to_i]
+        @star_hash[r.to_i] += 1
+      else
+        @star_hash[r.to_i] = 0
+      end
+    end
   end
 
   # GET /occurrences/1
