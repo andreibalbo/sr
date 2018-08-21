@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   root to: "occurrences#index"
 
+  get 'occurrences/lost', to: "occurrences#list_lost"
+  get 'occurrences/found', to: "occurrences#list_found"
+
   resources :occurrences
 
   resources :users
