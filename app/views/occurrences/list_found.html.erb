@@ -1,0 +1,81 @@
+<div class="notice_div col-12">
+  <p id="notice"><%= notice %></p>
+</div>
+
+<div class="user_buttons">
+  <%= link_to 'Registrar ocorrência', new_occurrence_path %>
+</div>
+<div class="occurrence_wrapper">
+  <p style="display: block;">Ocorrências: </p>
+  <div class="lost_box col-12 col-md-9">
+    <h4>Animais Perdidos:</h4>
+    <% @occurrences.each do |occurrence| %>
+      <div class="occurrence_box col-5 col-md-2">
+        <div class="occurrence_img">
+        </div>
+        <div class="item occurrence_desc">
+          <%= occurrence.description %>
+        </div>
+        <div class="occurrence_location">
+          <%= occurrence.location %>
+        </div>
+        <div class="occurrence_date">
+          <%= occurrence.date %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  .user_logout_wrp{
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .user_buttons {
+    height: 10%;
+  }
+  .user_buttons a{
+    padding: 5px;
+    color: #fff;
+    background-color: #17a2b8;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .user_buttons a:hover{
+    background-color: #28b2c8;
+    text-decoration: none;
+  }
+
+  .occurrence_wrapper {
+    display: flex;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+  }
+
+  .occurrence_box{
+    max-height: 100px;
+    border: 1px solid #17a2b8;
+  }
+
+  table {
+    width: 100%;
+    border: 1px solid #0792a8;
+  }
+
+  table tr{
+    border: 1px solid #0792a8;
+  }
+  table tr th{
+    background-color: #17a2b8;
+    border: 1px solid #0792a8;
+    color: #fff;
+    font-size: 0.9em;
+  }
+  table tr td{
+    border: 1px solid #0792a8;
+    font-size: 0.8em;
+  }
+</style>

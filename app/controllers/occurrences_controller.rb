@@ -7,16 +7,6 @@ class OccurrencesController < ApplicationController
   # GET /occurrences.json
   def index
     @display_name = current_user.name.nil? ? current_user.email : current_user.name
-    @occurrences = Occurrence.all
-    @star_hash = {}
-    to_relation = Star.all.pluck(:to)
-    to_relation.each do |r|
-      if @star_hash[r.to_i]
-        @star_hash[r.to_i] += 1
-      else
-        @star_hash[r.to_i] = 0
-      end
-    end
   end
 
   # GET /occurrences/1
@@ -71,6 +61,14 @@ class OccurrencesController < ApplicationController
       format.html { redirect_to occurrences_url, notice: 'Occurrence was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def list_found
+    @occurrences = Occurrence.found
+  end
+
+  def list_lost
+    @occurrences = Occurrence.lost
   end
 
   private

@@ -3,52 +3,26 @@
 </div>
 
 <div class="user_logout_wrp col-12">
-  <div class="user_logout col-12 col-md-3">
+  <div class="user_logout col-12 col-md-4">
     <span><%="Olá, #{@display_name}, "%>&nbsp</span><%= link_to("Sair", destroy_user_session_path, method: :delete) %>
   </div>
 </div>
 
-<div class="user_buttons">
-  <%= link_to 'Registrar ocorrência', new_occurrence_path %>
+<div class="user_buttons col-12 col-md-6">
+  <div class="menu-item">
+    <span class="menu-title">Menu do Usuário</span>
+  </div>
+  <div class="menu-item btn-menu-div">
+    <%= link_to 'Registrar ocorrência', new_occurrence_path, class: 'new col-10 col-md-2' %>
+  </div>
+  <div class="menu-item btn-menu-div">
+    <%= link_to 'Animais perdidos', occurrences_lost_path, class: 'lost col-10 col-md-2' %>
+  </div>
+  <div class="menu-item btn-menu-div">
+    <%= link_to 'Animais encontrados', occurrences_found_path, class: 'found col-10 col-md-2' %>
+  </div>
 </div>
-<div class="occurrence_wrapper">
-  <h3>Ocorrências: </h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Imagem</th>
-        <th>Tipo</th>
-        <th>Descrição</th>
-        <th>Localização</th>
-        <th>Data</th>
-        <th>Curtidas</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @occurrences.each do |occurrence| %>
-        <tr class="occurrence_box">
-          <td class="occurrence_img">
-          </td>
-          <td class="occurrence_type sm-hidden"></td>
-          <td class="item occurrence_desc">
-            <%= occurrence.description %>
-          </td>
-          <td class="occurrence_location">
-            <%= occurrence.location %>
-          </td>
-          <td class="occurrence_date">
-            <%= occurrence.date %>
-          </td>
-          <td class="occurrence_stars">
-            <%= @star_hash[occurrence.id].present? ? @star_hash[@occurrence.id] : 0 %>
-          </td>
-          <td class="occurrence_status"></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+
 
 <style type="text/css">
   .user_logout_wrp{
@@ -56,53 +30,53 @@
     display: flex;
     justify-content: flex-end;
   }
+  .user-logout {
+    min-width: 300px;
+  }
+
   .user_buttons {
-    height: 10%;
+    height: 60%;
+    display: flex;
+    align-items: left;
+    flex-direction: column;
   }
-  .user_buttons a{
-    padding: 5px;
+  .btn-menu-div {
+    margin: 20px;
+  }
+  .btn-menu-div a{
+    white-space: nowrap;
+    text-align: center;
+    display: block;
+    max-width: 250px;
+    padding: 10px;
     color: #fff;
     background-color: #17a2b8;
     border: 1px solid #17a2b8;
     border-radius: 3px;
     text-decoration: none;
   }
-  .user_buttons a:hover{
-    background-color: #28b2c8;
-    text-decoration: none;
+  a.lost {
+    background-color: #ba6c43;
+    border: 1px solid #ba6c43;
   }
-
-  .occurrence_wrapper {}
-
-  .occurrence_list_box {
-    padding: 0px;
-    max-height: 80%;
-    overflow-y: scroll;
+  a.found {
+    background-color: #48af84;
+    border: 1px solid #48af84;
+  }
+  .occurrence_wrapper {
+    display: flex;
     border: 1px solid #17a2b8;
     border-radius: 3px;
   }
+
   .occurrence_box{
-    width: 100%;
-    height: 10vh;
-    border-bottom: 1px solid #17a2b8;
+    max-height: 100px;
+    border: 1px solid #17a2b8;
   }
 
-  table {
-    width: 100%;
-    border: 1px solid #0792a8;
-  }
-
-  table tr{
-    border: 1px solid #0792a8;
-  }
-  table tr th{
-    background-color: #17a2b8;
-    border: 1px solid #0792a8;
-    color: #fff;
-    font-size: 0.9em;
-  }
-  table tr td{
-    border: 1px solid #0792a8;
-    font-size: 0.8em;
+  .menu-title {
+    color: #17a2b8;
+    font-weight: bold;
+    margin: 30px;
   }
 </style>

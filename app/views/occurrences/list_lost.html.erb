@@ -1,0 +1,85 @@
+<div class="notice_div col-12">
+  <p id="notice"><%= notice %></p>
+</div>
+
+<div class="user_buttons">
+  <%= link_to 'Registrar ocorrência', new_occurrence_path %>
+</div>
+<div class="occurrence_wrapper">
+  <p style="width: 100%; display: block">Ocorrências de animais perdidos:</p>
+  <div class="lost_box col-12">
+    <% @occurrences.each do |occurrence| %>
+      <div class="occurrence_box col-5 col-md-2">
+        <div class="occurrence_img">
+          <% if !occurrence.images.empty? %>
+            <img style="max-width: 150; max-height: 120px;" src="data:image/png;base64, <%="#{occurrence.images.first.base64}"%>"/>
+          <% else %>
+            <p>Ocorrência sem imagem :(</p>
+          <% end %>
+        </div>
+        <div class="item occurrence_desc">
+          <%= occurrence.description %>
+        </div>
+        <div class="occurrence_location">
+          <%= occurrence.location %>
+        </div>
+        <div class="occurrence_date">
+          <%= occurrence.date %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  .user_logout_wrp{
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .user_buttons {
+    height: 10%;
+  }
+  .user_buttons a{
+    padding: 5px;
+    color: #fff;
+    background-color: #17a2b8;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .user_buttons a:hover{
+    background-color: #28b2c8;
+    text-decoration: none;
+  }
+
+  .occurrence_wrapper {
+  }
+
+  .lost_box {
+    overflow-y: scroll;
+    height: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+  }
+  .occurrence_box{
+    overflow: hidden;
+    text-align: center;
+    height: 180px;
+    min-width: 175px;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    margin: 15px;
+    padding: 10px;
+  }
+  .occurrence_img {
+    overflow: hidden;
+    height: 100px;
+    width: 150px;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+  }
+
+</style>
