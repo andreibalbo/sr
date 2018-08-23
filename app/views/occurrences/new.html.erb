@@ -1,5 +1,23 @@
-<h1>New Occurrence</h1>
+<h1 class="section-title">Registrar nova ocorrência</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', occurrences_path %>
+<%= link_to 'Voltar ao Menu', occurrences_path, class: 'btn btn-info-red' %>
+
+<style type="text/css">
+  .section-title {
+    font-size:20px;
+    font-weight: bold;
+  }
+  .btn-info-red {
+    margin: 10px;
+    background-color: #ba5846;
+    text-decoration: none;
+    color: #fff;
+  }
+  .btn-info-red:hover {
+    color: #fff;
+    background-color: #c65e4b;
+  }
+
+</style>
