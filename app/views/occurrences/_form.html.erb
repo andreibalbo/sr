@@ -1,4 +1,4 @@
-<%= form_for(@occurrence) do |f| %>
+<%= form_for @occurrence, html: { multipart: true, id: 'occurrence_form' } do |f| %>
   <div class="new-form-wrapper col-12">
 
     <% if @occurrence.errors.any? %>
@@ -34,7 +34,16 @@
         </div>
         <div class="basic-item form-group">
           <span>Tipo de animal:</span><br>
-          <%= f.select :animal_type, ['Cachorro', 'Gato', 'Outros'] %>
+          <%= f.select :animal_type, ['Cachorro', 'Gato', 'Outro'] %>
+        </div>
+        <div class="basic-item form-group">
+          <span>Upload de fotos ou imagens:</span><br>
+          <form action="/media-upload" class="dropzone">
+            <div class="fallback">
+              <input name="file" type="file" />
+            </div>
+          </form>
+          <%#= file_field_tag 'Imagens', multiple: true, accept: "image/jpeg, image/jpg, image/gif, image/png" %>
         </div>
       </div>
       <div class="form-group col-12 col-md-6">
@@ -60,14 +69,27 @@
       <span id="place-name"  class="title"></span><br>
       <span id="place-address"></span>
     </div>
+    <div style="display: none;">
+      <%= f.text_field :location_lat, :id => 'latitude_field' %><br>
+      <%= f.text_field :location_lon, :id => 'longitude_field' %><br>
+    </div>
 
     <script>
-      var curitibaLatlng = {lat: -25.44577578, lng: -49.28638345};
+      var initialLatlng = {lat: -25.44577578, lng: -49.28638345};
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var initialLatlng = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        });
+      }
 
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: curitibaLatlng,
-          zoom: 13,
+          center: initialLatlng,
+          zoom: 14,
           zoomControl: true,
           mapTypeControl: false,
           scaleControl: false,
@@ -122,6 +144,8 @@
           marker.setPosition(place.geometry.location);
           marker.setVisible(true);
 
+          document.getElementById('latitude_field').value = marker.position.lat();
+          document.getElementById('longitude_field').value = marker.position.lng();
           var address = '';
           if (place.address_components) {
             address = [
@@ -148,6 +172,16 @@
     </div>
   </div>
 <% end %>
+
+<script type="text/javascript">
+
+  $('#occurrence_form').submit(function( event ) {
+    debugger;
+    event.preventDefault();
+});
+
+
+</script>
 
 <style type="text/css">
   .new-form-wrapper {

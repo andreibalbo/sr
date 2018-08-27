@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180821120748) do
+ActiveRecord::Schema.define(version: 20180827184054) do
 
   create_table "avatars", force: :cascade do |t|
     t.string   "base64"
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20180821120748) do
 
   create_table "occurrences", force: :cascade do |t|
     t.date     "date"
-    t.string   "location"
     t.string   "description"
     t.integer  "stars"
     t.datetime "created_at",      null: false
@@ -64,6 +63,8 @@ ActiveRecord::Schema.define(version: 20180821120748) do
     t.string   "animal_type"
     t.string   "animal_color"
     t.string   "animal_size"
+    t.float    "location_lat"
+    t.float    "location_lon"
   end
 
   add_index "occurrences", ["user_id"], name: "index_occurrences_on_user_id"
