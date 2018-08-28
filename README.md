@@ -53,3 +53,5 @@ updated nodejs due a problem with bootstrap but it was added to dockerfile
 __may have missed some migrations__
 
 rails g migration add_lat_lon_to_occurrences
+
+rails g migration add_locationstring_to_occurrences
