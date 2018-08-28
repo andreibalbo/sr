@@ -26,10 +26,17 @@ class OccurrencesController < ApplicationController
   # POST /occurrences
   # POST /occurrences.json
   def create
+    occurrence_params[:user_id] = current_user.id
+    if params['file'].tempfile
+      b64 = Base64.strict_encode64(params['file'].tempfile.read)
+    end
     @occurrence = Occurrence.new(occurrence_params)
 
     respond_to do |format|
       if @occurrence.save
+        if b64
+          @occurrence.images.create(base64: b64)
+        end
         format.html { redirect_to @occurrence, notice: 'Occurrence was successfully created.' }
         format.json { render :show, status: :created, location: @occurrence }
       else
@@ -79,6 +86,16 @@ class OccurrencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def occurrence_params
-      params.require(:occurrence).permit(:date, :location, :description, :stars)
+      params.require(:occurrence).permit(:date,
+                                         :location_lat,
+                                         :location_lon,
+                                         :location_string,
+                                         :animal_type,
+                                         :animal_size,
+                                         :animal_color,
+                                         :occurrence_type,
+                                         :date,
+                                         :description,
+                                         :stars)
     end
 end
