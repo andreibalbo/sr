@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'puma'
 gem 'devise'
 gem 'bootstrap', '~> 4.1.3'
+gem 'dropzonejs-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
