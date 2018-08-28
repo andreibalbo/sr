@@ -1,5 +1,5 @@
 <%= form_for @occurrence, html: { multipart: true, id: 'occurrence_form' } do |f| %>
-  <div class="new-form-wrapper col-12">
+  <div class="new-form-wrapper col-12 col-xl-8">
 
     <% if @occurrence.errors.any? %>
       <div id="error_explanation">
@@ -15,32 +15,40 @@
     <div class="basic-desc-wrapper col-12">
       <div class="basic-form-wrapper col-12 col-md-6">
         <div class="basic-item form-group">
-          <span>Quando:</span><br>
-          <input id="datepicker" width="200" />
-          <script>
-            $( function() {
-              $( "#datepicker" ).datepicker({
-                dateFormat: "dd/mm/yy",
-                monthNames: [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
-                dayNamesMin: [ "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab" ]
 
-              });
-            });
-          </script>
+          <span>Tipo da ocorrência:</span><br>
+          <%= f.radio_button :occurrence_type, false, :checked => true %> Perdido
+          <%= f.radio_button :occurrence_type, true %> Encontrado
+        </div>
+        <div class="basic-item form-group">
+          <span>Quando:</span><br>
+          <% m_names = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ] %>
+          <%= f.date_field :date, width: '200', class: 'form-control' %>
+
           <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
           <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
           <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         </div>
-        <div class="basic-item form-group">
-          <span>Tipo de animal:</span><br>
-          <%= f.select :animal_type, ['Cachorro', 'Gato', 'Outro'] %>
+        <div class="basic-item form-group" style="display: flex; flex-direction: row;">
+          <div class="basic-inline col-4">
+            <span>Tipo de animal:</span><br>
+            <%= f.select :animal_type, ['Cachorro', 'Gato', 'Outro'], class: 'form-control' %>
+          </div>
+          <div class="basic-inline col-4">
+            <span>Cor:</span><br>
+            <%= f.text_field :animal_color, class: 'form-control' %>
+          </div>
+          <div class="basic-inline col-4">
+            <span>Tamanho:</span><br>
+            <%= f.text_field :animal_size, class: 'form-control' %>
+          </div>
         </div>
         <div class="basic-item form-group">
           <span>Upload de fotos ou imagens:</span><br>
           <form action="/media-upload" class="dropzone">
             <div class="fallback">
-              <input name="file" type="file" />
+              <input name="file" type="file" class="form-control" />
             </div>
           </form>
           <%#= file_field_tag 'Imagens', multiple: true, accept: "image/jpeg, image/jpg, image/gif, image/png" %>
@@ -48,7 +56,7 @@
       </div>
       <div class="form-group col-12 col-md-6">
         <span>Descrição:</span><br>
-        <%= f.text_field :description, class: 'description-input' %>
+        <%= f.text_field :description, class: 'description-input form-control' %>
       </div>
     </div>
     <div class="map-form form-group col-12 col-md-6">
@@ -72,6 +80,7 @@
     <div style="display: none;">
       <%= f.text_field :location_lat, :id => 'latitude_field' %><br>
       <%= f.text_field :location_lon, :id => 'longitude_field' %><br>
+      <%= f.text_field :location_string, :id => 'address_field' %><br>
     </div>
 
     <script>
@@ -158,6 +167,8 @@
           infowindowContent.children['place-icon'].src = place.icon;
           infowindowContent.children['place-name'].textContent = place.name;
           infowindowContent.children['place-address'].textContent = address;
+          document.getElementById('address_field').value = address;
+
           infowindow.open(map, marker);
         });
 
@@ -172,16 +183,6 @@
     </div>
   </div>
 <% end %>
-
-<script type="text/javascript">
-
-  $('#occurrence_form').submit(function( event ) {
-    debugger;
-    event.preventDefault();
-});
-
-
-</script>
 
 <style type="text/css">
   .new-form-wrapper {
