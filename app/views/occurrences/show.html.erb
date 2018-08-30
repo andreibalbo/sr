@@ -1,24 +1,128 @@
-<p id="notice"><%= notice %></p>
+<div class="upper-wrapper col-12">
+  <div class="occ_data col-12 col-md-5">
+    <p>
+      <strong>Data da ocorrência:</strong>
+      <%= @occurrence.date %>
+      <strong>Tipo da ocorrência:</strong>
+      <%= @occurrence.occurrence_type ? "Encontrado" : "Perdido" %>
+    </p>
+    <p>
+      <strong>Tipo de animal:</strong>
+      <%= @occurrence.animal_type %>
+      <strong>Cor:</strong>
+      <%= @occurrence.animal_color %>
+      <strong>Tamanho:</strong>
+      <%= @occurrence.animal_size %>
+    </p>
+    <p>
+      <strong>Descrição:</strong>
+      <%= @occurrence.description %>
+    </p>
+    <input type="number" id="occ_lat" value="<%= @occurrence.location_lat%>" style="display: none;">
+    <input type="number" id="occ_lon" value="<%= @occurrence.location_lon%>" style="display: none;">
+    <input type="text" id="occ_string" value="<%= @occurrence.location_string%>" style="display: none;">
 
-<p>
-  <strong>Date:</strong>
-  <%= @occurrence.date %>
-</p>
+  </div>
+  <div class="pic_map col-12 col-md-6">
+    <div class="occ_image col-12">
+      <img class="col-md-8 col-12" src="data:image/png;base64, <%="#{@occurrence.images.first.base64}"%>"/>
+    </div>
+    <div class="occ_map col-12">
+      <div class="map_address">
+        <p class="map_location_title">Localização:</p>
+        <%=@occurrence.location_string.blank? ? "Ocorrência sem endereço" : @occurrence.location_string%>
+      </div>
+      <div id="map" class="col-12 col-md-8"></div>
+      <script>
+        function initMap() {
+          var occ_lat = parseFloat($('#occ_lat').val());
+          var occ_lon = parseFloat($('#occ_lon').val());
+          var occ_string = $('#occ_string').val();
+          if (occ_lat == NaN || occ_lon == NaN){
+            var occLatLng = {lat: -25.44577578, lng: -49.28638345};
+          }
+          else {
+            var occLatLng = {lat: occ_lat, lng: occ_lon};
+          }
+          if (occ_string == "") {
+            occ_string = "Ocorrência sem endereço";
+          }
 
-<p>
-  <strong>Location:</strong>
-  <%= @occurrence.location %>
-</p>
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: occLatLng,
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false
+          });
 
-<p>
-  <strong>Description:</strong>
-  <%= @occurrence.description %>
-</p>
+          var marker = new google.maps.Marker({
+            position: occLatLng,
+            map: map,
+            title: occ_string
+          });
+        }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz2C0M-vYOwk-g2tn2D-OK_N29i8CqQ0M&callback=initMap"
+      async defer></script>
+    </div>
+  </div>
+</div>
+<div class="lower-wrapper col-12"></div>
 
-<p>
-  <strong>Stars:</strong>
-  <%= @occurrence.stars %>
-</p>
+<%= link_to 'Voltar', occurrences_path, class: 'btn btn-info-red' %>
 
-<%= link_to 'Edit', edit_occurrence_path(@occurrence) %> |
-<%= link_to 'Back', occurrences_path %>
+<style type="text/css">
+  .upper-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    min-height: 60vh;
+    max-height: 83vh;
+  }
+  .occ_data {
+    padding: 10px;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    text-align: center;
+    margin: 5px;
+  }
+  .occ_image {
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .pic_map {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    text-align: center;
+  }
+  .occ_map {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    height: 300px;
+  }
+  .map_address {
+    height: 15%;
+    font-size: 9px;
+    color: #555;
+  }
+  .map_location_title {
+    color: #17a2b8;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+  #map {
+    margin: auto;
+    height: 85%;
+  }
+</style>
