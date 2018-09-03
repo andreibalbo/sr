@@ -11,7 +11,7 @@
     <% @occurrences.each do |occurrence| %>
       <%= link_to occurrence, class: 'occurrence_box' do %>
         <div class="occurrence_img">
-          <% if !occurrence.images.empty? %>
+          <% if occurrence.images.first.present? %>
             <img style="max-width: 150; max-height: 120px;" src="data:image/png;base64, <%="#{occurrence.images.first.base64}"%>"/>
           <% else %>
             <p>Ocorrência sem imagem :(</p>
@@ -57,7 +57,7 @@
   }
 
   .lost_box {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 60vh;
     display: flex;
     flex-wrap: wrap;

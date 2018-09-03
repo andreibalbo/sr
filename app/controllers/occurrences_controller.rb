@@ -19,6 +19,22 @@ class OccurrencesController < ApplicationController
     @occurrence = Occurrence.new
   end
 
+  def new_comment
+    user = current_user
+    occ_id = params[:occurrence_id].to_i
+    if occ_id.present? && params[:comment_msg].present?
+      if params[:date].nil?
+        date = Date.today
+      else
+        date = params[:date]
+      end
+      Comment.create(occurrence_id: occ_id, message: params[:comment_msg], user_id: user.id, date: date)
+      redirect_to occurrence_path(id: occ_id)
+    else
+      redirect_to root_path, notice: 'Ocorreu um erro ao salvar comentário.'
+    end
+  end
+
   # GET /occurrences/1/edit
   def edit
   end

@@ -1,93 +1,129 @@
-<div class="upper-wrapper col-12">
-  <div class="occ_data col-12 col-md-5">
-    <p>
-      <strong>Data da ocorrência:</strong>
-      <%= @occurrence.date %>
-      <strong>Tipo da ocorrência:</strong>
-      <%= @occurrence.occurrence_type ? "Encontrado" : "Perdido" %>
-    </p>
-    <p>
-      <strong>Tipo de animal:</strong>
-      <%= @occurrence.animal_type %>
-      <strong>Cor:</strong>
-      <%= @occurrence.animal_color %>
-      <strong>Tamanho:</strong>
-      <%= @occurrence.animal_size %>
-    </p>
-    <p>
-      <strong>Descrição:</strong>
-      <%= @occurrence.description %>
-    </p>
-    <input type="number" id="occ_lat" value="<%= @occurrence.location_lat%>" style="display: none;">
-    <input type="number" id="occ_lon" value="<%= @occurrence.location_lon%>" style="display: none;">
-    <input type="text" id="occ_string" value="<%= @occurrence.location_string%>" style="display: none;">
+<div class="show-wrapper col-12">
+  <div class="upper-wrapper col-12">
+    <div class="occ_data col-12 col-md-5">
+      <p>
+        <strong>Data da ocorrência:</strong>
+        <%= @occurrence.date %>
+        <strong>Tipo da ocorrência:</strong>
+        <%= @occurrence.occurrence_type ? "Encontrado" : "Perdido" %>
+      </p>
+      <p>
+        <strong>Tipo de animal:</strong>
+        <%= @occurrence.animal_type %>
+        <strong>Cor:</strong>
+        <%= @occurrence.animal_color %>
+        <strong>Tamanho:</strong>
+        <%= @occurrence.animal_size %>
+      </p>
+      <p>
+        <strong>Descrição:</strong>
+        <%= @occurrence.description %>
+      </p>
+      <input type="number" id="occ_lat" value="<%= @occurrence.location_lat%>" style="display: none;">
+      <input type="number" id="occ_lon" value="<%= @occurrence.location_lon%>" style="display: none;">
+      <input type="text" id="occ_string" value="<%= @occurrence.location_string%>" style="display: none;">
 
-  </div>
-  <div class="pic_map col-12 col-md-6">
-    <div class="occ_image col-12">
-      <img class="col-md-8 col-12" src="data:image/png;base64, <%="#{@occurrence.images.first.base64}"%>"/>
     </div>
-    <div class="occ_map col-12">
-      <div class="map_address">
-        <p class="map_location_title">Localização:</p>
-        <%=@occurrence.location_string.blank? ? "Ocorrência sem endereço" : @occurrence.location_string%>
+    <div class="pic_map col-12 col-md-6">
+      <div class="occ_image col-12">
+        <% if @occurrence.images.first.present? %>
+          <img class="col-md-8 col-12" src="data:image/png;base64, <%="#{@occurrence.images.first.base64}" %>"/>
+        <% else %>
+          <p>Ocorrência sem imagem :(</p>
+        <% end %>
       </div>
-      <div id="map" class="col-12 col-md-8"></div>
-      <script>
-        function initMap() {
-          var occ_lat = parseFloat($('#occ_lat').val());
-          var occ_lon = parseFloat($('#occ_lon').val());
-          var occ_string = $('#occ_string').val();
-          if (occ_lat == NaN || occ_lon == NaN){
-            var occLatLng = {lat: -25.44577578, lng: -49.28638345};
-          }
-          else {
-            var occLatLng = {lat: occ_lat, lng: occ_lon};
-          }
-          if (occ_string == "") {
-            occ_string = "Ocorrência sem endereço";
-          }
+      <div class="occ_map col-12">
+        <div class="map_address">
+          <p class="map_location_title">Localização:</p>
+          <%=@occurrence.location_string.blank? ? "Ocorrência sem endereço" : @occurrence.location_string%>
+        </div>
+        <div id="map" class="col-12 col-md-8" style=" <%= 'display: none;' if @occurrence.location_string.blank? %>"></div>
+        <script>
+          function initMap() {
+            var lat_string = $('#occ_lat').val();
+            var lon_string = $('#occ_lon').val();
+            var occ_lat = parseFloat(lat_string);
+            var occ_lon = parseFloat(lon_string);
+            var occ_string = $('#occ_string').val();
 
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 13,
-            center: occLatLng,
-            zoomControl: true,
-            mapTypeControl: false,
-            scaleControl: false,
-            streetViewControl: false,
-            rotateControl: false,
-            fullscreenControl: false
-          });
+            if (lat_string == "" || lon_string == ""){
+              var occLatLng = {lat: -25.44577578, lng: -49.28638345};
+            }
+            else {
+              var occLatLng = {lat: occ_lat, lng: occ_lon};
+            }
+            if (occ_string == "") {
+              occ_string = "Ocorrência sem endereço";
+            }
 
-          var marker = new google.maps.Marker({
-            position: occLatLng,
-            map: map,
-            title: occ_string
-          });
-        }
-      </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz2C0M-vYOwk-g2tn2D-OK_N29i8CqQ0M&callback=initMap"
-      async defer></script>
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 13,
+              center: occLatLng,
+              zoomControl: true,
+              mapTypeControl: false,
+              scaleControl: false,
+              streetViewControl: false,
+              rotateControl: false,
+              fullscreenControl: false
+            });
+
+            if (lat_string != "" && lon_string != ""){
+              var marker = new google.maps.Marker({
+                position: occLatLng,
+                map: map,
+                title: occ_string
+              });
+            }
+          }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz2C0M-vYOwk-g2tn2D-OK_N29i8CqQ0M&callback=initMap"
+        async defer></script>
+      </div>
+    </div>
+  </div>
+  <div class="lower-wrapper col-12 col-md-11">
+    <p class="map_location_title">Comentários:</p>
+    <% @occurrence.comments.each do |c| %>
+      <div class="comment_box col-12 col-md-11">
+        <div class="comment_title">
+          <%=c.user.name.present? ? c.user.name : c.user.email %> - <%=c.date.to_date.strftime('%d/%m/%y') if c.date.present? %>
+        </div>
+        <div class="comment_body">
+          <%=c.message %>
+        </div>
+      </div>
+    <% end %>
+    <div class="new_comment_box">
+      <p style="color: #555; font-size: 12px; margin-bottom: 1px;">Adicionar comentário:</p>
+      <%= form_tag('/occurrences/new_comment') do %>
+        <input type="hidden" name="occurrence_id" value=<%="#{@occurrence.id}"%>>
+        <input type="text" name="comment_msg" class="form-control"/>
+        <input type="submit" value="Comentar" class="btn btn-info-green">
+      <% end %>
     </div>
   </div>
 </div>
-<div class="lower-wrapper col-12"></div>
 
 <%= link_to 'Voltar', occurrences_path, class: 'btn btn-info-red' %>
 
 <style type="text/css">
+  .show-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 75vh;
+  }
   .upper-wrapper {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    overflow-y: scroll;
-    min-height: 60vh;
-    max-height: 83vh;
+    overflow-y: auto;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    margin-bottom: 5px;
   }
   .occ_data {
     padding: 10px;
-    border: 1px solid #17a2b8;
-    border-radius: 3px;
     text-align: center;
     margin: 5px;
   }
@@ -99,8 +135,6 @@
   .pic_map {
     margin: 5px;
     padding: 10px;
-    border: 1px solid #17a2b8;
-    border-radius: 3px;
     text-align: center;
   }
   .occ_map {
@@ -125,4 +159,47 @@
     margin: auto;
     height: 85%;
   }
+  .lower-wrapper{
+    position: relative;
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+    overflow-y: scroll;
+    min-height: 50px;
+    max-height: 300px;
+  }
+  .comment_box{
+    width: 100%;
+    padding: 10px;
+    max-height: 100px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 5px 0px;
+  }
+  #comment-msg {
+    width: 100%;
+  }
+  .btn-info-green {
+    color: #fff;
+    background-color: #46af75;
+    margin: 5px 0px;
+  }
+  .comment_title {
+    max-height: 15px;
+    color: #17a2b8;
+    font-weight: bold;
+    font-size: 12px;
+    text-indent: 5px;
+  }
+  .comment_body {
+    max-height: 50px;
+    overflow-y: auto;
+    color: #aaa;
+    font-size: 10px;
+  }
+   .btn-info-red {
+    margin: 10px;
+    background-color: #ba5846;
+    color: #fff;
+   }
 </style>

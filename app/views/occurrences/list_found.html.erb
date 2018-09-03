@@ -6,23 +6,27 @@
   <%= link_to 'Registrar ocorrência', new_occurrence_path %>
 </div>
 <div class="occurrence_wrapper">
-  <p style="display: block;">Ocorrências: </p>
-  <div class="lost_box col-12 col-md-9">
-    <h4>Animais Perdidos:</h4>
+  <p style="width: 100%; display: block">Ocorrências de animais encontrados:</p>
+  <div class="lost_box col-12">
     <% @occurrences.each do |occurrence| %>
-      <div class="occurrence_box col-5 col-md-2">
+      <%= link_to occurrence, class: 'occurrence_box' do %>
         <div class="occurrence_img">
+          <% if !occurrence.images.empty? %>
+            <img style="max-width: 150; max-height: 120px;" src="data:image/png;base64, <%="#{occurrence.images.first.base64}"%>"/>
+          <% else %>
+            <p>Ocorrência sem imagem :(</p>
+          <% end %>
         </div>
         <div class="item occurrence_desc">
           <%= occurrence.description %>
         </div>
         <div class="occurrence_location">
-          <%= occurrence.location %>
+          <%= occurrence.location_string %>
         </div>
         <div class="occurrence_date">
           <%= occurrence.date %>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -50,32 +54,62 @@
   }
 
   .occurrence_wrapper {
+  }
+
+  .lost_box {
+    overflow-y: scroll;
+    height: 60vh;
     display: flex;
+    flex-wrap: wrap;
     border: 1px solid #17a2b8;
     border-radius: 3px;
   }
-
   .occurrence_box{
-    max-height: 100px;
-    border: 1px solid #17a2b8;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+    height: 180px;
+    width: 175px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 10px;
   }
-
-  table {
+  .occurrence_box:hover{
+    background-color: #eee;
+    text-decoration: none;
+  }
+  .occurrence_img {
+    overflow: hidden;
+    height: 100px;
+    width: 153px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    color: #555;
+  }
+  .occurrence_desc{
+    height: 20px;
     width: 100%;
-    border: 1px solid #0792a8;
+    font-size: 9px;
+    color: #555;
+    margin:2px 0px;
+    text-decoration: none;
   }
-
-  table tr{
-    border: 1px solid #0792a8;
+  .occurrence_location{
+    height: 20px;
+    width: 100%;
+    font-size: 9px;
+    color: #17a2b8;
+    margin:2px 0px;
+    text-decoration: none;
   }
-  table tr th{
-    background-color: #17a2b8;
-    border: 1px solid #0792a8;
-    color: #fff;
-    font-size: 0.9em;
-  }
-  table tr td{
-    border: 1px solid #0792a8;
-    font-size: 0.8em;
+  .occurrence_date{
+    height: 20px;
+    width: 100%;
+    font-size: 12px;
+    color: #555;
+    margin:2px 0px;
+    text-decoration: none;
   }
 </style>
