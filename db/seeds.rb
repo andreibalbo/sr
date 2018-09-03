@@ -29,3 +29,6 @@ Image.create(occurrence_id:4, base64: b64)
 file = File.read("#{Rails.root}/app/assets/images/dog3.png")
 b64 = Base64.strict_encode64(file)
 Image.create(occurrence_id:5, base64: b64)
+
+Comment.create(user_id: 1, date: Date.today, occurrence_id: 1, message: 'nossa que fofino')
+Comment.create(user_id: 1, date: Date.today, occurrence_id: 1, message: 'tomara que o achem logo xddd')

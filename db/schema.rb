@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180828120608) do
+ActiveRecord::Schema.define(version: 20180903124642) do
 
   create_table "avatars", force: :cascade do |t|
     t.string   "base64"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20180828120608) do
     t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "occurrence_id"
+    t.text     "message"
   end
 
   add_index "comments", ["occurrence_id"], name: "index_comments_on_occurrence_id"
