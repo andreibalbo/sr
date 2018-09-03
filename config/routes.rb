@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'occurrences/lost', to: "occurrences#list_lost"
   get 'occurrences/found', to: "occurrences#list_found"
+  post 'occurrences/new_comment', to: "occurrences#new_comment"
 
   resources :occurrences
 
