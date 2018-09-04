@@ -2,7 +2,7 @@ module DeviseHelper
   def devise_error_messages!
     return "" unless devise_error_messages?
 
-    messages = resource.errors.messages.map { |msg| content_tag(:li, msg[1].join) }.join
+    messages = resource.errors.messages.map { |msg| content_tag(:li, msg[1].first) unless msg[1].first.nil? }.compact.join
     sentence = I18n.t("errors.messages.not_saved",
                       :count => resource.errors.count,
                       :resource => resource.class.model_name.human.downcase)

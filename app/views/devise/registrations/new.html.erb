@@ -1,7 +1,6 @@
 <h2>Cadastro</h2>
 <div class="devise_new_wrapper">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-group col-12 col-md-4'}) do |f| %>
-    <%= devise_error_messages! %>
     <div class="field">
       <span>Nome e sobrenome</span><br>
       <%= f.text_field :name, class: 'form-control' %>
@@ -26,7 +25,7 @@
     <div class="field">
       <span>Senha</span>
       <% if @minimum_password_length %>
-      <em>(Mínimo de <%= @minimum_password_length %> caracteres)</em>
+      <span><em>(Mínimo de <%= @minimum_password_length %> caracteres)</em><span>
       <% end %><br />
       <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
     </div>
@@ -40,13 +39,28 @@
       <%= f.submit "Cadastrar", class: 'btn btn-info-blue' %>
     </div>
   <% end %>
-
+  <div class="form_errors col-12 col-md-4">
+    <%= devise_error_messages! %>
+  </div>
   <%= render "devise/shared/links" %>
 </div>
+
 <style type="text/css">
   .devise_new_wrapper {
+    position: relative;
     max-height: 77vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .devise_new_wrapper form {
     overflow-y: auto;
+    position: relative;
+  }
+  .devise_new_wrapper span{
+    font-size: 12px;
+    font-weight: bold;
   }
   .btn-info-blue{
     padding: 5px;
@@ -54,6 +68,10 @@
     background-color: #17a2b8;
     border-radius: 3px;
     margin: 5px;
+  }
+  .form_errors {
+    overflow: auto;
+    position: relative;
   }
   #error_explanation {
     color: #c4433c;
