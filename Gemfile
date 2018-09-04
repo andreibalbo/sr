@@ -17,7 +17,7 @@ gem 'puma'
 gem 'devise'
 gem 'bootstrap', '~> 4.1.3'
 gem 'dropzonejs-rails'
-
+gem "cpf_cnpj"
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

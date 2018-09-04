@@ -6,8 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'base64'
+require 'cpf_cnpj'
 
-User.create(name: 'asd', email: 'asd@asd.com', password: '123456')
+User.create(name: 'Asd Dasd', email: 'asd@asd.com', password: '123456', cpf: CPF.generate, phone: '999999999', postal_code: '99999999' )
 Occurrence.create(date:'10-10-18', location_lat: -25.499, location_lon: -25.499, location_string: 'rua_tal', description: 'descricao1', user_id: 1, occurrence_type: false, animal_type: 'Cachorro', animal_color: 'Branco', animal_size: 'Grande')
 Occurrence.create(date:'10-11-18', location_lat: -25.497, location_lon: -25.500, location_string: 'rua talx', description: 'descricao2', user_id: 1, occurrence_type: false, animal_type: 'Gato', animal_color: 'Amarelo', animal_size: 'Pequeno')
 Occurrence.create(date:'10-12-18', location_lat: -25.496, location_lon: -25.501, location_string: 'rua talzxc', description: 'descricao3', user_id: 1, occurrence_type: true, animal_type: 'Cachorro', animal_color: 'Branco', animal_size: 'Medio')
