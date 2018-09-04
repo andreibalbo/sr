@@ -1,29 +1,65 @@
-<h2>Sign up</h2>
+<h2>Cadastro</h2>
+<div class="devise_new_wrapper">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-group col-12 col-md-4'}) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="field">
+      <span>Nome e sobrenome</span><br>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    <div class="field">
+      <span>CPF (Apenas números)</span><br>
+      <%= f.text_field :cpf, class: 'form-control', maxlength: 11 %>
+    </div>
+    <div class="field">
+      <span>CEP (Apenas números)</span><br>
+      <%= f.text_field :postal_code, class: 'form-control', maxlength: 8 %>
+    </div>
+    <div class="field">
+      <span>Telefone (Apenas números)</span><br>
+      <%= f.text_field :phone, class: 'form-control', maxlength: 9 %>
+    </div>
+    <div class="field">
+      <span>Email</span><br>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+    <div class="field">
+      <span>Senha</span>
+      <% if @minimum_password_length %>
+      <em>(Mínimo de <%= @minimum_password_length %> caracteres)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <div class="field">
+      <span>Confirmação de senha</span><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    <div class="actions">
+      <%= f.submit "Cadastrar", class: 'btn btn-info-blue' %>
+    </div>
+  <% end %>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+</div>
+<style type="text/css">
+  .devise_new_wrapper {
+    max-height: 77vh;
+    overflow-y: auto;
+  }
+  .btn-info-blue{
+    padding: 5px;
+    color: #fff;
+    background-color: #17a2b8;
+    border-radius: 3px;
+    margin: 5px;
+  }
+  #error_explanation {
+    color: #c4433c;
+    font-size: 10px;
+  }
+  #error_explanation h2{
+    font-size: 12px;
+  }
+</style>

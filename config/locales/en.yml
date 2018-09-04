@@ -21,3 +21,28 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "Email não pode ser vazio"
+              taken: "Email já cadastrado"
+              invalid: "Email inválido"
+            password:
+              blank: "Senha inválida"
+              confirmation: "Senhas não conferem"
+            name:
+              blank: "Nome inválido"
+              invalid: "Nome inválido"
+            cpf:
+              blank: "CPF inválido"
+              taken: "CPF já cadastrado"
+              invalid: "CPF inválido"
+            postal_code:
+              blank: "CEP inválido"
+              invalid: "CEP inválido"
+            phone:
+              blank: "Telefone inválido"
+              invalid: "Telefone inválido"
