@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180903124642) do
+ActiveRecord::Schema.define(version: 20180905001143) do
 
   create_table "avatars", force: :cascade do |t|
     t.string   "base64"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 20180903124642) do
     t.float    "location_lat"
     t.float    "location_lon"
     t.text     "location_string"
+    t.boolean  "resolved"
+    t.string   "resolve_message"
   end
 
   add_index "occurrences", ["user_id"], name: "index_occurrences_on_user_id"
