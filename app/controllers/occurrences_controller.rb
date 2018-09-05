@@ -43,8 +43,9 @@ class OccurrencesController < ApplicationController
   # POST /occurrences.json
   def create
     occurrence_params[:user_id] = current_user.id
-    if params['file'].tempfile
-      b64 = Base64.strict_encode64(params['file'].tempfile.read)
+    if params['file'].present?
+      temp = params['file'].tempfile
+      b64 = Base64.strict_encode64(temp.read)
     end
     @occurrence = Occurrence.new(occurrence_params)
 
