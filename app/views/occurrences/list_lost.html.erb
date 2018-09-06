@@ -9,7 +9,7 @@
   <p style="width: 100%; display: block">Ocorrências de animais perdidos:</p>
   <div class="lost_box col-12">
     <% @occurrences.each do |occurrence| %>
-      <%= link_to occurrence, class: 'occurrence_box' do %>
+      <%= link_to occurrence, class: (occurrence.resolved ? 'occurrence_box_resolved' : 'occurrence_box') do %>
         <div class="occurrence_img">
           <% if occurrence.images.first.present? %>
             <img style="max-width: 150; max-height: 120px;" src="data:image/png;base64, <%="#{occurrence.images.first.base64}"%>"/>
@@ -79,6 +79,19 @@
   .occurrence_box:hover{
     background-color: #eee;
     text-decoration: none;
+  }
+  .occurrence_box_resolved{
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+    height: 180px;
+    width: 175px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #a5ffde;
   }
   .occurrence_img {
     overflow: hidden;

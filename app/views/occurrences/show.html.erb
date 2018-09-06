@@ -2,6 +2,11 @@
   <div class="upper-wrapper col-12">
     <div class="occ_data col-12 col-md-5">
       <div class="info-wrapper">
+        <% if @occurrence.resolved %>
+          <div class="resolved-info">
+            <%=image_tag("check-icon.png", class: "check")%> <span>Ocorrência resolvida em <%=@occurrence.resolve_date%></span>
+          </div>
+        <% end %>
         <div class="form-info col-6">
           <strong>Data da ocorrência:</strong></br>
           <%= @occurrence.date %>
@@ -115,7 +120,7 @@
 </div>
 
 <%= link_to 'Voltar', occurrences_path, class: 'btn btn-info-red' %>
-<% if @occurrence.user == current_user %>
+<% if @occurrence.user == current_user && !@occurrence.resolved %>
   <%= link_to 'Editar ocorrência', edit_occurrence_path, id: @occurrence.id, class: 'btn btn-info-green' %>
     <!-- Button trigger modal -->
   <button type="button" class="btn btn-info-green" data-toggle="modal" data-target="#exampleModal">
@@ -132,13 +137,16 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <input type="text" name="resolve_msg" class="resolve_msg_box">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <%= link_to 'Salvar', occurrences_resolve_path, id: @occurrence.id, class: 'btn btn-primary' %>
-        </div>
+        <%= form_tag('/occurrences/resolve') do %>
+          <div class="modal-body">
+            <textarea name="resolve_msg" class="resolve_msg_box" placeholder="Motivo da resolução"></textarea>
+            <input type="hidden" name="occurrence_id" class="form-control" value=<%=@occurrence.id%> />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <input type="submit" value="Salvar" class="btn btn-primary">
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -267,4 +275,19 @@
     border: 1px solid #eee;
     border-radius: 2px;
   }
+  .resolve_msg_box{
+    height: 200px;
+    width: 100%;
+  }
+  .check {
+    height: 25px;
+  }
+  .resolved-info {
+    margin-bottom: 5px;
+    text-align: center;
+    color: #17a2b8;
+    font-size: 15px;
+    font-weight: bold;
+  }
+
 </style>

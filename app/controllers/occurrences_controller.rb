@@ -102,21 +102,21 @@ class OccurrencesController < ApplicationController
   end
 
   def list_found
-    @occurrences = Occurrence.found
+    @occurrences = Occurrence.found.order(:resolved)
   end
 
   def list_lost
-    @occurrences = Occurrence.lost
+    @occurrences = Occurrence.lost.order(:resolved)
   end
 
   def resolve
     parameters = {}
-    occurrence = Occurrence.find(params[:id])
-    parameters[:resolve_msg] = params[:resolve_msg]
+    occurrence = Occurrence.find(params[:occurrence_id])
+    parameters[:resolve_message] = params[:resolve_msg]
     parameters[:resolved] = true
     parameters[:resolve_date] = Date.today
     occurrence.update(parameters)
-    redirect_to occurrence_path(id: params[:id])
+    redirect_to occurrence_path(id: params[:occurrence_id])
   end
 
   private
