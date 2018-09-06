@@ -1,24 +1,34 @@
 <div class="show-wrapper col-12">
   <div class="upper-wrapper col-12">
     <div class="occ_data col-12 col-md-5">
-      <p>
-        <strong>Data da ocorrência:</strong>
-        <%= @occurrence.date %>
-        <strong>Tipo da ocorrência:</strong>
-        <%= @occurrence.occurrence_type ? "Encontrado" : "Perdido" %>
-      </p>
-      <p>
-        <strong>Tipo de animal:</strong>
-        <%= @occurrence.animal_type %>
-        <strong>Cor:</strong>
-        <%= @occurrence.animal_color %>
-        <strong>Tamanho:</strong>
-        <%= @occurrence.animal_size %>
-      </p>
-      <p>
-        <strong>Descrição:</strong>
-        <%= @occurrence.description %>
-      </p>
+      <div class="info-wrapper">
+        <div class="form-info col-6">
+          <strong>Data da ocorrência:</strong></br>
+          <%= @occurrence.date %>
+        </div>
+        <div class="form-info col-6">
+          <strong>Tipo da ocorrência:</strong></br>
+          <%= @occurrence.occurrence_type ? "Encontrado" : "Perdido" %>
+        </div>
+        <div class="form-info col-4">
+          <strong>Tipo de animal:</strong></br>
+          <%= @occurrence.animal_type %>
+        </div>
+        <div class="form-info col-4">
+          <strong>Cor:</strong></br>
+          <%= @occurrence.animal_color %>
+        </div>
+        <div class="form-info col-4">
+          <strong>Tamanho:</strong></br>
+          <%= @occurrence.animal_size %>
+        </div>
+      </div>
+      <div class="desc-wrapper">
+        <strong>Descrição:</strong></br>
+        <div class="desc-info col-12">
+          <%= @occurrence.description %>
+        </div>
+      </div>
       <input type="number" id="occ_lat" value="<%= @occurrence.location_lat%>" style="display: none;">
       <input type="number" id="occ_lon" value="<%= @occurrence.location_lon%>" style="display: none;">
       <input type="text" id="occ_string" value="<%= @occurrence.location_string%>" style="display: none;">
@@ -105,7 +115,34 @@
 </div>
 
 <%= link_to 'Voltar', occurrences_path, class: 'btn btn-info-red' %>
+<% if @occurrence.user == current_user %>
+  <%= link_to 'Editar ocorrência', edit_occurrence_path, id: @occurrence.id, class: 'btn btn-info-green' %>
+    <!-- Button trigger modal -->
+  <button type="button" class="btn btn-info-green" data-toggle="modal" data-target="#exampleModal">
+    Marcar como resolvida
+  </button>
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ocorrência resolvida</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="resolve_msg" class="resolve_msg_box">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <%= link_to 'Salvar', occurrences_resolve_path, id: @occurrence.id, class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 <style type="text/css">
   .show-wrapper {
     display: flex;
@@ -197,9 +234,37 @@
     color: #aaa;
     font-size: 10px;
   }
-   .btn-info-red {
+  .btn-info-red {
     margin: 10px;
     background-color: #ba5846;
     color: #fff;
+  }
+  .form-info {
+    max-height: 60px;
+    padding: 4px;
+    border: 1px solid #eee;
+    border-radius: 2px;
    }
+  .info-wrapper {
+    max-height: 150px;
+    padding: 10px;
+    text-align: center;
+    margin: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+  }
+  .desc-wrapper {
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  .desc-info {
+    text-align: left;
+    min-height: 300px;
+    padding: 4px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+  }
 </style>

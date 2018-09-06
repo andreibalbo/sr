@@ -12,6 +12,4 @@ class Occurrence < ActiveRecord::Base
     Occurrence.where(occurrence_type: true)
   end
 
-
-
 end

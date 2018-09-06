@@ -67,7 +67,21 @@ class OccurrencesController < ApplicationController
   # PATCH/PUT /occurrences/1.json
   def update
     respond_to do |format|
+      unless occurrence_params[:location_lat].present?
+        occurrence_params[:location_lat] = @occurrence.location_lat
+      end
+      unless occurrence_params[:location_lon].present?
+        occurrence_params[:location_lon] = @occurrence.location_lat
+      end
+      unless occurrence_params[:location_string].present?
+        occurrence_params[:location_string] = @occurrence.location_lat
+      end
       if @occurrence.update(occurrence_params)
+        if params['file'].present?
+          temp = params['file'].tempfile
+          b64 = Base64.strict_encode64(temp.read)
+        end
+        @occurrence.images.first.update(base64: b64)
         format.html { redirect_to @occurrence, notice: 'Occurrence was successfully updated.' }
         format.json { render :show, status: :ok, location: @occurrence }
       else
@@ -93,6 +107,16 @@ class OccurrencesController < ApplicationController
 
   def list_lost
     @occurrences = Occurrence.lost
+  end
+
+  def resolve
+    parameters = {}
+    occurrence = Occurrence.find(params[:id])
+    parameters[:resolve_msg] = params[:resolve_msg]
+    parameters[:resolved] = true
+    parameters[:resolve_date] = Date.today
+    occurrence.update(parameters)
+    redirect_to occurrence_path(id: params[:id])
   end
 
   private

@@ -84,7 +84,13 @@
     </div>
 
     <script>
-      var initialLatlng = {lat: -25.44577578, lng: -49.28638345};
+      var lat_edit = document.getElementById('latitude_field').value
+      var lon_edit = document.getElementById('longitude_field').value
+      if (lat_edit && lon_edit){
+        var initialLatlng = {lat: lat_edit, lng: lon_edit};
+      } else {
+        var initialLatlng = {lat: -25.44577578, lng: -49.28638345};
+      }
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
